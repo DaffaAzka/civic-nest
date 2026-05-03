@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Build output
+build/
+.cache/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Remix
+/build
+/.cache
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional
+.vercel
+.netlify
+dist/
