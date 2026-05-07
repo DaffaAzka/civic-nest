@@ -38,3 +38,4 @@ npm-debug.log*
 .vercel
 .netlify
 dist/
+/app/generated/prisma
