@@ -1,16 +1,31 @@
 import RegisterForm from "@/features/register/form";
 import type { Route } from "./+types/register";
 import { register } from "@/services/auth.service.server";
-import { redirect } from "react-router";
+import { data, redirect } from "react-router";
+import { RegisterSchema } from "@/validators/auth.validators";
 
 export async function action({ request }: Route.ActionArgs) {
   const form = await request.formData();
 
+  const parsed = RegisterSchema.safeParse({
+    name: form.get("name"),
+    email: form.get("email"),
+    password: form.get("password"),
+    retry_password: form.get("retry_password"),
+  });
+
+  if (!parsed.success) {
+    return data(
+      { errors: parsed.error.flatten().fieldErrors },
+      { status: 400 },
+    );
+  }
+
   try {
     const response = await register(
-      form.get("email")!.toString(),
-      form.get("password")!.toString(),
-      form.get("name")!.toString(),
+      parsed.data.email,
+      parsed.data.password,
+      parsed.data.name,
       request,
     );
 

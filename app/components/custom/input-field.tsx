@@ -8,6 +8,7 @@ export default function InputField({
   label,
   placeholder,
   description,
+  error,
   onChange,
 }: {
   name: string;
@@ -15,10 +16,11 @@ export default function InputField({
   placeholder?: string;
   label?: string;
   description?: string;
+  error?: string;
   onChange?: () => void;
 }) {
   return (
-    <Field>
+    <Field data-invalid={error ? true : undefined}>
       {label ?
         <FieldLabel htmlFor={`input-field-${name}`}>{label}</FieldLabel>
       : <></>}
@@ -29,8 +31,8 @@ export default function InputField({
         placeholder={placeholder}
         onChange={onChange}
       />
-      {description ?
-        <FieldDescription>{description}</FieldDescription>
+      {error ?
+        <FieldDescription>{error}</FieldDescription>
       : <></>}
     </Field>
   );
