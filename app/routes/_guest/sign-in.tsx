@@ -1,48 +1,50 @@
-import RegisterForm from "@/features/register/form";
-import type { Route } from "./+types/register";
-import { register } from "@/services/auth.service.server";
+import { SignInSchema } from "@/validators/auth.validators";
+import type { Route } from "./+types/sign-in";
 import { data, redirect } from "react-router";
-import { RegisterSchema } from "@/validators/auth.validators";
 import { AppError } from "@/lib/error.server";
+import { signIn } from "@/services/auth.service.server";
+import SignInForm from "@/features/sign-in/form";
 
 export async function action({ request }: Route.ActionArgs) {
   const form = await request.formData();
 
-  const parsed = RegisterSchema.safeParse({
-    name: form.get("name"),
+  const parsed = SignInSchema.safeParse({
     email: form.get("email"),
     password: form.get("password"),
-    retry_password: form.get("retry_password"),
   });
 
   if (!parsed.success) {
     return data(
-      { errors: parsed.error.flatten().fieldErrors },
-      { status: 400 },
+      {
+        errors: parsed.error.flatten().fieldErrors,
+      },
+      {
+        status: 400,
+      },
     );
   }
 
   try {
-    await register(
+    const response = await signIn(
       parsed.data.email,
       parsed.data.password,
-      parsed.data.name,
       request,
     );
-
-    return redirect("/sign-in");
+    const sessionCookie = response.headers.get("set-cookie");
+    return redirect("/dashboard", {
+      headers: sessionCookie ? { "Set-Cookie": sessionCookie } : undefined,
+    });
   } catch (error) {
     const message =
       error instanceof AppError ? error.message : "Something wrong!";
-
     return data({ errors: { _form: [message] } }, { status: 400 });
   }
 }
 
-export default function Register() {
+export default function SignIn() {
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <RegisterForm />
+      <SignInForm />
     </div>
   );
 }

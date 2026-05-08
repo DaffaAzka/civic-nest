@@ -4,13 +4,14 @@ import LoadingButton from "@/components/custom/loading-button";
 import {
   Card,
   CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Form, useActionData, useNavigation } from "react-router";
 
-import { Form, redirect, useActionData, useNavigation } from "react-router";
-
-export default function RegisterForm() {
+export default function SignInForm() {
   const actionData = useActionData();
   const navigation = useNavigation();
   const errors = actionData?.errors;
@@ -19,33 +20,26 @@ export default function RegisterForm() {
     <>
       <Card className="min-w-xl">
         <CardHeader>
-          <CardTitle>Register Account</CardTitle>
+          <CardTitle>Sign In</CardTitle>
         </CardHeader>
         <CardContent>
           <Form method="post" className="flex flex-col gap-4">
             {errors?._form?.[0] && <ErrorAlert text={errors?._form?.[0]} />}
 
-            <InputField name="name" label="Name" error={errors?.name?.[0]} />
             <InputField
               name="email"
               label="Email"
               type="email"
               error={errors?.email?.[0]}
             />
-            <div className="flex flex-row gap-4">
-              <InputField
-                name="password"
-                label="Password"
-                type="password"
-                error={errors?.password?.[0]}
-              />
-              <InputField
-                name="retry_password"
-                label="Retry password"
-                type="password"
-                error={errors?.retry_password?.[0]}
-              />
-            </div>
+
+            <InputField
+              name="password"
+              label="Password"
+              type="password"
+              error={errors?.password?.[0]}
+            />
+
             <LoadingButton
               text="Submit"
               loading={navigation.state === "submitting"}

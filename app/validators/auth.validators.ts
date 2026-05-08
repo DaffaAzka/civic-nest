@@ -12,4 +12,10 @@ export const RegisterSchema = z
     path: ["retry_password"],
   });
 
+export const SignInSchema = z.object({
+  email: z.string().email("Please enter a valid email address."),
+  password: z.string().min(8, "Password must be at least 8 characters long."),
+});
+
 export type RegisterInput = z.infer<typeof RegisterSchema>;
+export type SignInInput = z.infer<typeof SignInSchema>;
