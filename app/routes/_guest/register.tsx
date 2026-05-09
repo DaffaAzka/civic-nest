@@ -5,6 +5,13 @@ import { data, redirect } from "react-router";
 import { RegisterSchema } from "@/validators/auth.validators";
 import { AppError } from "@/lib/error.server";
 
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Register" },
+    { name: "description", content: "An residence app!" },
+  ];
+}
+
 export async function action({ request }: Route.ActionArgs) {
   const form = await request.formData();
 

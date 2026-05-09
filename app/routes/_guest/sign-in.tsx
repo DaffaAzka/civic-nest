@@ -5,6 +5,13 @@ import { AppError } from "@/lib/error.server";
 import { signIn } from "@/services/auth.service.server";
 import SignInForm from "@/features/sign-in/form";
 
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Sign In" },
+    { name: "description", content: "An residence app!" },
+  ];
+}
+
 export async function action({ request }: Route.ActionArgs) {
   const form = await request.formData();
 
