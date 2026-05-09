@@ -7,6 +7,10 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
+export const handle = {
+  pageTitle: "Dashboard",
+};
+
 export default function Dashboard() {
   return (
     <>

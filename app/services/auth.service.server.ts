@@ -1,6 +1,6 @@
-import { email } from "./../../node_modules/zod/src/v4/core/regexes";
 import { auth } from "@/lib/auth.server";
 import { AppError } from "@/lib/error.server";
+import { createContext } from "react-router";
 
 export async function register(
   email: string,
@@ -42,7 +42,7 @@ export async function signIn(
 
   if (!result.ok) {
     const body = await result.json();
-    throw new AppError(body?.message ?? "Authentucation failed", 400);
+    throw new AppError(body?.message ?? "Authentication failed", 400);
   }
 
   return result;
@@ -51,3 +51,6 @@ export async function signIn(
 export async function getSession(request: Request) {
   return auth.api.getSession({ headers: request.headers });
 }
+
+export type { User };
+type User = typeof auth.$Infer.Session.user;

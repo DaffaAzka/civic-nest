@@ -3,19 +3,29 @@ import { SiteHeader } from "@/components/custom/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { requireAuth } from "@/middlewares/auth.server";
 import { Outlet } from "react-router";
+import type { Route } from "./+types/layout";
+import { getSession } from "@/services/auth.service.server";
 
 export const middleware = [requireAuth];
 
-export default function AuthLayout() {
+export async function loader({ request }: Route.LoaderArgs) {
+  const session = await getSession(request);
+  return { user: session?.user ?? null };
+}
+
+export default function AuthLayout({ loaderData }: Route.ComponentProps) {
+  const { user } = loaderData;
+
   return (
     <SidebarProvider
+      
       style={
         {
           "--sidebar-width": "calc(var(--spacing) * 72)",
           "--header-height": "calc(var(--spacing) * 12)",
         } as React.CSSProperties
       }>
-      <AppSidebar variant="inset" />
+      <AppSidebar variant="inset" user={user}  />
       <SidebarInset>
         <SiteHeader />
         <div className="flex flex-1 flex-col">

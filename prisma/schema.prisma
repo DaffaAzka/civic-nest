@@ -74,3 +74,133 @@ model Verification {
   @@index([identifier])
   @@map("verification")
 }
+
+// ─── AREA (reference to external API) ──────────────────────
+
+model Rw {
+  id             String @id @default(cuid())
+  number         String // "001"
+  provinceCode   String
+  regencyCode    String
+  districtCode   String
+  villageCode    String
+  rt             Rt[]
+
+  @@unique([number, villageCode])
+}
+
+model Rt {
+  id       String     @id @default(cuid())
+  number   String     // "001"
+  rwId     String
+  rw       Rw         @relation(fields: [rwId], references: [id])
+  families Family[]
+
+  @@unique([number, rwId])
+}
+
+// ─── FAMILY ────────────────────────────────────────────────
+
+model Family {
+  id                String        @id @default(cuid())
+  familyCardNumber  String  @unique // No KK — 16 digit
+  address           String
+  residentStatus    ResidentStatus @default(PERMANENT)
+  rtId              String
+  rt                Rt            @relation(fields: [rtId], references: [id])
+  members           Member[]
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+}
+
+// ─── MEMBER ────────────────────────────────────────────────
+
+model Member {
+  id                  String          @id @default(cuid())
+  nationalId          String          @unique // NIK — 16 digit
+  fullName            String
+  familyId            String
+  family              Family          @relation(fields: [familyId], references: [id])
+  isHeadOfFamily      Boolean         @default(false)
+  familyRelationship  FamilyRelationship
+  gender              Gender
+  birthPlace          String
+  birthDate           DateTime        @db.Date
+  religion            Religion
+  education           Education?
+  occupation          String?
+  maritalStatus       MaritalStatus
+  citizenship         Citizenship     @default(CITIZEN)
+  passportNumber      String?
+  kitapNumber         String?
+  fatherId            String?
+  father              Member?         @relation("FatherChild", fields: [fatherId], references: [id])
+  childrenOfFather    Member[]        @relation("FatherChild")
+  motherId            String?
+  mother              Member?         @relation("MotherChild", fields: [motherId], references: [id])
+  childrenOfMother    Member[]        @relation("MotherChild")
+  deletedAt           DateTime?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+}
+
+// ─── ENUMS ─────────────────────────────────────────────────
+
+enum ResidentStatus {
+  PERMANENT
+  TEMPORARY
+  CONTRACT
+}
+
+enum FamilyRelationship {
+  HEAD
+  SPOUSE
+  CHILD
+  SON_IN_LAW
+  DAUGHTER_IN_LAW
+  GRANDCHILD
+  PARENT
+  PARENT_IN_LAW
+  OTHER_FAMILY
+  HELPER
+  OTHER
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Religion {
+  ISLAM
+  PROTESTANT
+  CATHOLIC
+  HINDU
+  BUDDHIST
+  CONFUCIAN
+}
+
+enum Education {
+  NO_SCHOOLING
+  ELEMENTARY
+  JUNIOR_HIGH
+  SENIOR_HIGH
+  DIPLOMA_1
+  DIPLOMA_2
+  DIPLOMA_3
+  BACHELOR
+  MASTER
+  DOCTORATE
+}
+
+enum MaritalStatus {
+  SINGLE
+  MARRIED
+  DIVORCED
+  WIDOWED
+}
+
+enum Citizenship {
+  CITIZEN
+  FOREIGN_CITIZEN
+}
