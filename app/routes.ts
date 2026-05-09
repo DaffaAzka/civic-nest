@@ -14,5 +14,7 @@ export default [
 
   layout("./routes/_auth/layout.tsx", [
     route("/dashboard", "./routes/_auth/dashboard.tsx"),
+    route("/residents", "./routes/_auth/_residents/residents.tsx"),
+    route("/residents/:id", "./routes/_auth/_residents/residents.$id.tsx"),
   ]),
 ] satisfies RouteConfig;

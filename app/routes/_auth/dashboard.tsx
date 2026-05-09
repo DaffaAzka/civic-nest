@@ -11,7 +11,7 @@ export const handle = {
   pageTitle: "Dashboard",
 };
 
-export default function Dashboard() {
+export default function DashboardPage() {
   return (
     <>
       <h1>Testing Dashboard Auth</h1>

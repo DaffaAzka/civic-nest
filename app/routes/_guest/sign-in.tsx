@@ -48,7 +48,7 @@ export async function action({ request }: Route.ActionArgs) {
   }
 }
 
-export default function SignIn() {
+export default function SignInPage() {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <SignInForm />

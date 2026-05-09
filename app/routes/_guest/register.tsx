@@ -46,7 +46,7 @@ export async function action({ request }: Route.ActionArgs) {
   }
 }
 
-export default function Register() {
+export default function RegisterPage() {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <RegisterForm />
