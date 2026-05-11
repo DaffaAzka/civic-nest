@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import {
   IconCamera,
@@ -67,7 +65,7 @@ const data = {
   ],
 };
 
-export async function AppSidebar({
+export function AppSidebar({
   user,
   ...props
 }: React.ComponentProps<typeof Sidebar> & { user: User | null }) {

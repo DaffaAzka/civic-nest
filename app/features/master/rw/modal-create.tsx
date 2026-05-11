@@ -1,3 +1,5 @@
+import SelectField from "@/components/custom/select-field";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,18 +8,30 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import type { Province } from "@/types/map.types";
+import type { SelectItem } from "@/types/other.types";
 
-export default function ModalCreate() {
+export default function ModalCreate({ provinces }: { provinces: Province[] }) {
+  const selectedProvinces: SelectItem[] = provinces.map((e) => ({
+    id: e.code,
+    name: e.name,
+  }));
   return (
     <>
       <Dialog>
-        <DialogTrigger>Create RT</DialogTrigger>
+        <DialogTrigger>
+          <Button>Create RT</Button>
+        </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
+            <DialogTitle>Create a new RT</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              <SelectField
+                items={selectedProvinces}
+                name="provinces"
+                text="Select Provinces"
+                onChange={() => {}}
+              />
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

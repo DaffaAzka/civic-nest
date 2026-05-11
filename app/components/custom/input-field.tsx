@@ -32,7 +32,7 @@ export default function InputField({
         onChange={onChange}
       />
       {error ?
-        <FieldDescription>{error}</FieldDescription>
+        <FieldDescription className="text-xs">{error}</FieldDescription>
       : <></>}
     </Field>
   );
