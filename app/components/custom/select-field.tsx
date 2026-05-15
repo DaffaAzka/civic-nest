@@ -44,7 +44,10 @@ export default function SelectField({
           <SelectTrigger className="w-full" disabled={isDisabled}>
             <SelectValue placeholder={text} />
           </SelectTrigger>
-          <SelectContent className="max-h-[40vh]">
+          <SelectContent
+            className="max-h-[40vh]"
+            position="popper"
+            onCloseAutoFocus={(e) => e.preventDefault()}>
             <InputField
               name="search"
               placeholder="Search"

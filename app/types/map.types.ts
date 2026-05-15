@@ -8,3 +8,15 @@ export type Regency = {
   name: string;
   provinceCode: string;
 };
+
+export type Distric = {
+  code: string;
+  name: string;
+  regencyCode: string;
+};
+
+export type Village = {
+  code: string;
+  name: string;
+  districtCode: string;
+};
