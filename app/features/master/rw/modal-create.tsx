@@ -11,14 +11,16 @@ import {
 import type { Province, Regency, Village } from "@/types/map.types";
 import type { SelectItem } from "@/types/other.types";
 import { useEffect, useState } from "react";
+import InputField from "@/components/custom/input-field";
+import LoadingButton from "@/components/custom/loading-button";
 
 export default function ModalCreate({ provinces }: { provinces: Province[] }) {
   const fetcher = useFetcher<{
-  regencies: Regency[] | null;
-  provinces: Province[] | null;
-  districts: Regency[] | null;
-  villages: Village[] | null;
-}>();
+    regencies: Regency[] | null;
+    provinces: Province[] | null;
+    districts: Regency[] | null;
+    villages: Village[] | null;
+  }>();
   const isLoading = fetcher.state === "loading";
 
   const [values, setValues] = useState<{
@@ -89,7 +91,7 @@ export default function ModalCreate({ provinces }: { provinces: Province[] }) {
       <DialogTrigger asChild>
         <Button>Create RW</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="lg:min-w-xl">
         <DialogHeader>
           <DialogTitle>Create a new RW</DialogTitle>
         </DialogHeader>
@@ -153,6 +155,10 @@ export default function ModalCreate({ provinces }: { provinces: Province[] }) {
             value={values.village}
             isDisabled={isLoading || lists.villages.length === 0}
           />
+
+          <InputField name="rw" placeholder="Rw Number" />
+
+          <LoadingButton text="Submit" />
         </div>
       </DialogContent>
     </Dialog>

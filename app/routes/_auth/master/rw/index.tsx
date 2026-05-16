@@ -1,5 +1,5 @@
 import type { Route } from "./+types";
-import { useLoaderData } from "react-router";
+import { isRouteErrorResponse, useLoaderData, useRouteError } from "react-router";
 import ModalCreate from "@/features/master/rw/modal-create";
 import {
   getDistricts,
@@ -34,8 +34,11 @@ export async function loader({ request }: Route.LoaderArgs) {
   return { provinces, districts: null, regencies: null, villages: null };
 }
 
+
+
 export default function RwPage() {
   const { provinces } = useLoaderData<typeof loader>();
 
   return <ModalCreate provinces={provinces ?? []} />;
 }
+
