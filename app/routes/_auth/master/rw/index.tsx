@@ -6,7 +6,7 @@ import {
   getProvinces,
   getRegencies,
   getVillages,
-} from "@/services/rw.service.server";
+} from "@/services/area.service.server";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
